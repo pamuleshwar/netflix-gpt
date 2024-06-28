@@ -1,6 +1,9 @@
 # Netflix Gpt
 - Created React App
 - Configured TailwindCSS
+- Header
+- Login Form
+- Sign Up form
 
 
 # Featurs
@@ -17,3 +20,6 @@
 - NetflixGPT
     -Search Bar
     -Movie Suggestions
+
+# Login Page
+- rafce (Generate Component Boiler plate)
