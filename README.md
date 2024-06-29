@@ -2,8 +2,11 @@
 - Created React App
 - Configured TailwindCSS
 - Header
+- Routing
 - Login Form
 - Sign Up form
+- Form validation
+- useRef Hook
 
 
 # Featurs

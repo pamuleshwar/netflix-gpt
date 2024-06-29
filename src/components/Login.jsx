@@ -1,10 +1,26 @@
 import { Link } from "react-router-dom"
 import Header from "./Header"
-import { useState } from "react"
+import { useState, useRef } from "react"
+import { checkValidEmailPassword } from "../utils/validateSignForm"
 
 const Login = () => {
 
   const [isSignIn,setIsSignIn] = useState(true);
+
+  //error-messages
+  const [errorMsg, setErrorMsg] = useState(null);
+
+  //ref the email and password to input
+  const name = useRef(null);
+  const email = useRef(null);
+  const password = useRef(null);
+
+  //validate the email, password
+  const handleValidation = () => {
+    const message = checkValidEmailPassword(name?.current?.value,email?.current?.value,password?.current?.value);
+    
+    setErrorMsg(message)
+  }
 
   const handleSignup = () => {
     setIsSignIn(!isSignIn);
@@ -18,16 +34,19 @@ const Login = () => {
       </div>
 
       <div className="absolute bg-black rounded-lg w-5/12 my-24 mx-auto right-0 left-0 bg-opacity-80">
-        <form className="flex flex-col p-16">
+        <form onSubmit={(e) => e.preventDefault()} className="flex flex-col p-16">
           <h1 className="text-white text-4xl font-bold mb-3 ml-2">{isSignIn ? "Sign in" : "Sign up"}</h1>
 
-          {!isSignIn && <input type="text" placeholder="Good Name" className="m-2 p-3 rounded-md bg-gray-800"/>}
+          {!isSignIn && <input ref={name} type="text" placeholder="Good Name" className="text-white m-2 p-3 rounded-md bg-gray-800"/>}
+          {!isSignIn && errorMsg == "Enter valid name" &&  <p className="text-red-500 text-sm ml-2 p-2">{errorMsg}</p>}
 
-          <input type="text" placeholder="Email or mobile number" className="m-2 p-3 rounded-md bg-gray-800"/>
+          <input ref={email} type="text" placeholder="Email" className="text-white m-2 p-3 rounded-md bg-gray-800"/>
+          {errorMsg === "Enter valid email" && <p className="text-red-500 text-sm ml-2 p-2">{errorMsg}</p>}
 
-          <input type="password" placeholder="Password" className="m-2 p-3 rounded-md bg-gray-800"/>
+          <input ref={password} type="password" placeholder="Password" className="text-white m-2 p-3 rounded-md bg-gray-800"/>
+          {errorMsg === "Enter valid password" && <p className="text-red-500 text-sm ml-2 p-2">{errorMsg}</p>}
 
-          <button className="mx-2 p-3 my-2 bg-red-600 text-white rounded-lg">{isSignIn ? "Sign in" : "Sign up"}</button>
+          <button className="mx-2 p-3 my-2 bg-red-600 text-white rounded-lg" onClick={handleValidation}>{isSignIn ? "Sign in" : "Sign up"}</button>
 
           {!isSignIn && <span className="mx-auto py-2 text-gray-500">-- OR --</span>}
 
@@ -38,7 +57,7 @@ const Login = () => {
           <span className="m-2 p-2 text-gray-400">{isSignIn ? "New to Netflix?" : "Prime user!"} <span className="font-bold text-white cursor-pointer" onClick={handleSignup}>{isSignIn ? "Sign up now" : "Sign in now"}</span>.</span>
 
           <div className="m-2 p-2">
-            <input type="checkbox" name="remember" className="my-auto"/>
+            <input type="checkbox" className="my-auto"/>
             <span className="text-white ml-2 my-auto">Remember me</span>
           </div>
 
